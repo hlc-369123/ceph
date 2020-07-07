@@ -1,0 +1,9 @@
+   lsblk |grep ceph|awk -F 'ceph-' '{print $NF}' >/tmp/osd_num.txt
+   
+   for i in `cat /tmp/osd_num.txt`;do ceph osd tree down|grep osd|grep osd.$i;done
+   
+   for i in `ceph osd tree down|grep osd|awk '{print $3}'`;do ceph osd find $i|grep ip;done|awk -F ':68' '{print $1}'|sort -u
+   
+   for i in `ceph osd tree down|grep osd|awk '{print $3}'`;do ceph osd find $i|grep ip|grep -o 101.1.1..[0-9];done|sort -u
+   
+   for i in `ceph osd tree down|grep osd|awk '{print $1}'`;do ssh $(ceph osd find $i|grep ip|grep -o 101.1.1..[0-9]) "systemctl start ceph-osd@$i";done
