@@ -1,0 +1,13 @@
+排查websocket过程中使用到了如下命令：
+查询websocket状态：
+select id, type, status, host_id, not_before, "create" from task where type='SendWSNotification' order by id desc;
+查询pending状态的条数：
+select count(*) from task where type='SendWSNotification' and status='pending';
+删除pending状态的记录
+delete from task where type='SendWSNotification' and status='pending';
+查询running状态的条数：
+select count(*) from task where type='SendWSNotification' and status='running';
+查询websocket状态：
+select id, type, status, host_id, not_before, execute, "create" from task where type='SendWSNotification' order by id desc;
+删除running状态：
+delete from task where type='SendWSNotification' and status='running';
